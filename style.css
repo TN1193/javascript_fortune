@@ -1,5 +1,7 @@
+
 @charset "UTF-8";
 
+/* 全体設定 */
 * {
   margin: 0;
   padding: 0;
@@ -13,22 +15,33 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #f5f5f5;
+  padding: 30px 20px;
 }
 
+/* ヘッダー */
 header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-main {
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 300px;
-  margin: 0 20px;
+header h1 {
+  font-size: 2.5rem;
 }
 
+/* メイン */
+main {
+  position: relative;
+  padding: 3rem;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* おみくじボタン */
 #drawButton {
   font-size: 1.3rem;
   padding: 12px 30px;
@@ -37,55 +50,179 @@ main {
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
   margin-bottom: 2rem;
 }
 
 #drawButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
   background: #000;
+  transform: translateY(-3px);
 }
 
 #drawButton:active {
-  transform: translateY(0);
+  transform: scale(0.95);
 }
 
+#drawButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* 結果表示 */
 #resultDisplay {
-  font-size: 1.5rem;
-  min-height: 60px;
+  position: relative;
+  font-size: 2rem;
+  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   border-radius: 15px;
-  background: #EEE;
+  background: #eee;
   border: 2px solid #e9ecef;
+  color: #333;
+  transition: color 0.3s, border-color 0.3s;
 }
 
+/* 通常の結果アニメーション */
+.pop {
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  60% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 良い結果：カラフルな紙吹雪 */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 6px;
+  pointer-events: none;
+  animation: burst 0.9s ease-out forwards;
+}
+
+@keyframes burst {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(var(--x), var(--y))
+      rotate(450deg);
+    opacity: 0;
+  }
+}
+
+/* 凶：軽く揺れる */
+.bad-shake {
+  animation: badShake 0.5s ease;
+}
+
+@keyframes badShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+/* 大凶：大きく揺れる */
+.very-bad-shake {
+  animation: bigShake 0.6s ease;
+}
+
+@keyframes bigShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-10px);
+  }
+
+  40% {
+    transform: translateX(10px);
+  }
+
+  60% {
+    transform: translateX(-7px);
+  }
+
+  80% {
+    transform: translateX(7px);
+  }
+}
+
+/* 大凶：黒い紙吹雪 */
+.bad-particle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+  animation: badFall 1s ease-out forwards;
+}
+
+@keyframes badFall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(var(--x), 100px)
+      rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* フッター */
 footer {
-  position: fixed;
-  bottom: 20px;
+  margin-top: 2rem;
   font-size: 0.9rem;
+  color: #777;
 }
 
-@media (min-width: 601px) {
+/* スマートフォン */
+@media (max-width: 600px) {
   header h1 {
-    font-size: 2.5rem;
-  }
-  
-  main {
-    margin: 0;
-    padding: 3rem;
-  }
-  
-  #drawButton {
-    font-size: 1.5rem;
-    padding: 15px 40px;
-  }
-  
-  #resultDisplay {
     font-size: 2rem;
+  }
+
+  main {
+    padding: 2rem;
+  }
+
+  #drawButton {
+    font-size: 1.2rem;
+  }
+
+  #resultDisplay {
+    font-size: 1.7rem;
   }
 }
