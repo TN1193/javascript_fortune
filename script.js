@@ -20,7 +20,7 @@ drawButton.addEventListener('click', () => {
 const drawButton = document.querySelector('#drawButton');
 const resultDisplay = document.querySelector('#resultDisplay');
 
-// おみくじの結果と色
+
 const results = [
   { name: '大吉', color: '#DAA520' },
   { name: '中吉', color: '#E74C3C' },
@@ -32,16 +32,15 @@ const results = [
   { name: '大凶', color: '#555555' }
 ];
 
-// 前回の結果
+
 let lastResult = '';
 
-// ランダムに結果を選ぶ
+
 function getRandomResult() {
   const randomNumber = Math.floor(Math.random() * results.length);
   return results[randomNumber];
 }
 
-// 良い結果：紙吹雪
 function showConfetti() {
 
   const colors = [
@@ -52,7 +51,7 @@ function showConfetti() {
     '#A29BFE'
   ];
 
-  // 左右から紙吹雪を出す
+
   for (let side of ['left', 'right']) {
 
     for (let i = 0; i < 8; i++) {
@@ -76,7 +75,7 @@ function showConfetti() {
 
       resultDisplay.appendChild(piece);
 
-      // アニメーション終了後に削除
+
       piece.addEventListener('animationend', () => {
         piece.remove();
       });
@@ -84,7 +83,7 @@ function showConfetti() {
   }
 }
 
-// 大凶：黒い紙吹雪
+
 function showBadParticles() {
 
   const colors = [
@@ -110,20 +109,20 @@ function showBadParticles() {
 
     resultDisplay.appendChild(piece);
 
-    // アニメーション終了後に削除
+    
     piece.addEventListener('animationend', () => {
       piece.remove();
     });
   }
 }
 
-// ボタンをクリックしたとき
+
 drawButton.addEventListener('click', () => {
 
-  // 連続クリックを防ぐ
+
   drawButton.disabled = true;
 
-  // 前回のアニメーションをリセット
+
   resultDisplay.classList.remove(
     'pop',
     'bad-shake',
@@ -135,7 +134,7 @@ drawButton.addEventListener('click', () => {
 
   let count = 0;
 
-  // 抽選中のアニメーション
+
   const animation = setInterval(() => {
 
     const randomResult = getRandomResult();
@@ -143,28 +142,27 @@ drawButton.addEventListener('click', () => {
     resultDisplay.textContent = randomResult.name;
     count++;
 
-    // 12回切り替えたら停止
+
     if (count >= 12) {
 
       clearInterval(animation);
 
       let finalResult = getRandomResult();
 
-      // 前回と同じ結果を避ける
       while (finalResult.name === lastResult) {
         finalResult = getRandomResult();
       }
 
       lastResult = finalResult.name;
 
-      // 最終結果を表示
+
       resultDisplay.textContent = finalResult.name;
 
-      // 結果によって色を変更
+
       resultDisplay.style.color = finalResult.color;
       resultDisplay.style.borderColor = finalResult.color;
 
-      // 結果によってエフェクトを変更
+
       if (
         finalResult.name === '大吉' ||
         finalResult.name === '中吉' ||
@@ -172,29 +170,29 @@ drawButton.addEventListener('click', () => {
         finalResult.name === '吉'
       ) {
 
-        // 良い結果：カラフルな紙吹雪
+
         resultDisplay.classList.add('pop');
         showConfetti();
 
       } else if (finalResult.name === '凶') {
 
-        // 凶：軽く揺れる
+
         resultDisplay.classList.add('bad-shake');
 
       } else if (finalResult.name === '大凶') {
 
-        // 大凶：大きく揺れて黒い紙吹雪
+
         resultDisplay.classList.add('very-bad-shake');
         showBadParticles();
 
       } else {
 
-        // その他：通常のアニメーション
+     
         resultDisplay.classList.add('pop');
 
       }
 
-      // ボタンを再び使用できるようにする
+
       drawButton.disabled = false;
     }
 
@@ -205,7 +203,7 @@ drawButton.addEventListener('click', () => {
     } else if (randomNumber < 0.8) {
         resultDisplay.textContent = '中吉';
 
-    // どちらでもない場合
+  
     } else {
         resultDisplay.textContent = '吉'; //
     }
